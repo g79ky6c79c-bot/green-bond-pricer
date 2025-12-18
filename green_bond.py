@@ -215,7 +215,7 @@ def z_spread(
 ) -> float:
     """
     Constant z-spread over the risk-free curve such that discounted cashflows equal
-    observed dirty price. Z-spread is expressed in absolute terms (e.g. 0.015 = 150 bps). [web:4][web:5]
+    observed dirty price. Z-spread is expressed in absolute terms (e.g. 0.015 = 150 bps).
     """
     times, cashflows = generate_cashflows(bond)
     accrued = accrued_interest(bond, settlement_time)
@@ -247,7 +247,7 @@ def greenium(
 ) -> float:
     """
     Greenium defined as difference in z-spread between green bond and comparable
-    vanilla bond (vanilla_z - green_z). Positive value => green bond trades tighter. [web:5][web:17]
+    vanilla bond (vanilla_z - green_z). Positive value => green bond trades tighter.
     """
     return comparable_vanilla_z - green_bond_z
 
@@ -306,9 +306,9 @@ def compute_esg_scores(inputs: ESGInputs) -> ESGScores:
     """
     Compute detailed ESG scores with:
     - Normalization of raw metrics to 0–100
-    - Pillar weights: E=40%, S=30%, G=30% (common practice to ensure G weight is material). [web:6][web:12]
+    - Pillar weights: E=40%, S=30%, G=30% (common practice to ensure G weight is material). 
     - Within-pillar sub-factor weights are explicit and sum to 1.
-    - Final 0–100 score and mapping to AAA–CCC based on breakpoints inspired by rating practices. [web:6][web:18]
+    - Final 0–100 score and mapping to AAA–CCC based on breakpoints inspired by rating practices. 
     """
 
     # ----------------- Environmental sub-scores -----------------
@@ -446,10 +446,10 @@ def classify_green_bond(inputs: GreenBondClassificationInputs) -> GreenBondClass
     Classify bond under:
     - ICMA Green Bond Principles (GBP)
     - EU Taxonomy alignment (simple % as provided)
-    - SFDR Article 6 / 8 / 9 (applied in a bond/fund context) [web:7][web:10][web:16]
+    - SFDR Article 6 / 8 / 9 (applied in a bond/fund context) 
     """
 
-    # ICMA GBP: four core components + external review. [web:16]
+    # ICMA GBP: four core components + external review.
     icma_components = [
         inputs.use_of_proceeds_aligned,
         inputs.process_for_project_evaluation,
@@ -463,10 +463,7 @@ def classify_green_bond(inputs: GreenBondClassificationInputs) -> GreenBondClass
     # EU Taxonomy: directly use the input percentage, but clip.
     eu_tax_pct = max(min(inputs.eu_taxonomy_alignment_pct, 100.0), 0.0)
 
-    # SFDR classification logic (simplified, at product level). [web:7][web:10]
-    # - Article 9: primary objective sustainable investment + high taxonomy alignment
-    # - Article 8: promotes E/S characteristics but not pure sustainable objective
-    # - Article 6: none of the above
+    
     if inputs.primary_objective_sustainable and eu_tax_pct >= 50.0:
         sfdr = "Article 9"
     elif inputs.promotes_esg_characteristics:
@@ -592,10 +589,10 @@ def example_usage() -> None:
         payment_frequency=2,
         maturity_years=5.0,
         issue_price=100.0,
-        credit_spread=0.0115,    # 115 bps, reflecting a small greenium. [web:5][web:11]
+        credit_spread=0.0115,    # 115 bps, reflecting a small greenium. 
     )
 
-    # -------- ESG quantitative inputs (illustrative but realistic project) --------
+    # -------- ESG quantitative inputs--------
     esg_inputs = ESGInputs(
         co2_avoided_tons_per_year=150_000.0,
         energy_eff_improvement_pct=30.0,
@@ -619,7 +616,7 @@ def example_usage() -> None:
         management_of_proceeds=True,
         reporting_commitment=True,
         external_review=True,
-        eu_taxonomy_alignment_pct=65.0,  # majority aligned with EU taxonomy criteria. [web:19]
+        eu_taxonomy_alignment_pct=65.0,  # majority aligned with EU taxonomy criteria. 
         primary_objective_sustainable=True,
         promotes_esg_characteristics=True,
     )
@@ -639,5 +636,5 @@ def example_usage() -> None:
 
 
 if __name__ == "__main__":
-    # Running the module directly executes the example and prints the KPI dashboard.
+ 
     example_usage()
